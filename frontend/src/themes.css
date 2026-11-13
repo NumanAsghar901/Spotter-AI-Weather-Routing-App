@@ -1,0 +1,787 @@
+/* ══════════════════════════════════════════════════════════════════
+   SPOTTER AI — GOLDEN THEME SYSTEM (LIGHT & DARK MODES)
+   Severity colors keep standard meaning; brand & interactive
+   elements glow in luxurious gold.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Light Mode (Warm Ivory & Golden Accents) ───────────────────── */
+html[data-theme="light"] {
+  color-scheme: light;
+  --green: #b38118;
+  --gold: #b38118;
+  --gold-accent: #c99320;
+  --gold-glow: rgba(179, 129, 24, 0.35);
+  --gold-surface: #fdf8ee;
+  --muted: #7b7161;
+  --border: #e8e0d0;
+  --light-bg: #fbf9f4;
+  --light-surface: #ffffff;
+  --light-raised: #f7f3ea;
+  --light-text: #2a241b;
+  --light-muted: #7c7263;
+  --light-accent: #b38118;
+  background: var(--light-bg);
+  color: var(--light-text);
+}
+
+html[data-theme="light"] .app-header {
+  background: #ffffff;
+  border-bottom-color: #e8e0d0;
+}
+html[data-theme="light"] .sidebar {
+  background: #fdfcf9;
+  border-right-color: #e8e0d0;
+}
+html[data-theme="light"] .main-content {
+  background: var(--light-bg);
+}
+html[data-theme="light"] .brand-mark {
+  background: #fdf6e7;
+  color: #b38118;
+  border: 1px solid #e3c988;
+  transition: all 0.2s ease;
+}
+html[data-theme="light"] .brand:hover .brand-mark {
+  box-shadow: 0 0 18px var(--gold-glow);
+  border-color: var(--gold);
+}
+html[data-theme="light"] .brand-ai {
+  color: #b38118;
+}
+html[data-theme="light"] .brand small,
+html[data-theme="light"] .header-center {
+  color: #8c7e68;
+}
+html[data-theme="light"] .text-gold {
+  color: #a8720e;
+  background: linear-gradient(135deg, #b88019 0%, #c89222 50%, #946408 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html[data-theme="light"] .section-eyebrow,
+html[data-theme="light"] .form-heading p,
+html[data-theme="light"] .page-title-row p,
+html[data-theme="light"] .field-hint,
+html[data-theme="light"] .form-footnote,
+html[data-theme="light"] .sidebar-bottom p,
+html[data-theme="light"] .text-button,
+html[data-theme="light"] .subtle-label,
+html[data-theme="light"] .selected-summary,
+html[data-theme="light"] .app-footer {
+  color: var(--light-muted);
+}
+html[data-theme="light"] .trip-form label,
+html[data-theme="light"] .trip-form legend,
+html[data-theme="light"] .sidebar-bottom p strong {
+  color: #473e31;
+}
+html[data-theme="light"] .input-icon {
+  background: #ffffff;
+  border-color: #e3dac8;
+  color: #947d57;
+  transition: all 0.2s ease;
+}
+html[data-theme="light"] .input-icon input {
+  color: var(--light-text);
+}
+html[data-theme="light"] .input-unit {
+  color: #947d57;
+  border-color: #e3dac8;
+}
+html[data-theme="light"] .input-icon:focus-within {
+  border-color: #b38118;
+  box-shadow: 0 0 14px rgba(179, 129, 24, 0.3);
+}
+html[data-theme="light"] .swap-button,
+html[data-theme="light"] .icon-button {
+  background: #ffffff;
+  color: #b38118;
+  border-color: #e3dac8;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-theme="light"] .swap-button:hover,
+html[data-theme="light"] .icon-button:hover {
+  background: #fdf8ee;
+  border-color: #b38118;
+  color: #8c6006;
+  box-shadow: 0 0 16px var(--gold-glow);
+  transform: scale(1.08);
+}
+html[data-theme="light"] .suggestions,
+html[data-theme="light"] .suggestions button {
+  background: #ffffff;
+  color: var(--light-text);
+}
+html[data-theme="light"] .suggestions button:hover {
+  background: #fdf8ee;
+  color: #946408;
+  box-shadow: inset 3px 0 0 #b38118;
+}
+html[data-theme="light"] .interval-options button {
+  background: #ffffff;
+  border-color: #e3dac8;
+  color: #726249;
+  transition: all 0.2s ease;
+}
+html[data-theme="light"] .interval-options button:hover {
+  border-color: #b38118;
+  color: #946408;
+  box-shadow: 0 0 14px var(--gold-glow);
+}
+html[data-theme="light"] .interval-options button[aria-pressed="true"] {
+  background: #fdf8ed;
+  color: #8f6515;
+  border-color: #b38118;
+  box-shadow: 0 0 14px rgba(179, 129, 24, 0.25);
+}
+html[data-theme="light"] .calculate-button {
+  background: #b38118;
+  border-color: #b38118;
+  color: #ffffff;
+  font-weight: 650;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-theme="light"] .calculate-button:hover {
+  background: #c99320;
+  border-color: #c99320;
+  box-shadow: 0 0 25px rgba(179, 129, 24, 0.55), 0 0 5px #f6e2b3;
+  transform: translateY(-1px);
+}
+html[data-theme="light"] .theme-switch {
+  background: #f5efe4;
+  border-color: #e3dac8;
+}
+html[data-theme="light"] .theme-switch button {
+  color: #7d6f58;
+  transition: all 0.2s ease;
+}
+html[data-theme="light"] .theme-switch button:hover {
+  background: #fbf8f2;
+  color: #9c6e12;
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+html[data-theme="light"] .theme-switch button[aria-pressed="true"] {
+  background: #ffffff;
+  border-color: #d6c7b0;
+  color: #946408;
+  box-shadow: 0 1px 4px rgba(179, 129, 24, 0.15);
+}
+html[data-theme="light"] .service-status {
+  color: #8f6815;
+  background: #fdf8ed;
+  border-color: #ebdcb9;
+}
+html[data-theme="light"] .service-status .status-dot {
+  background: #dcb35c;
+  box-shadow: 0 0 8px #dcb35c;
+}
+html[data-theme="light"] .service-status.needs-setup {
+  background: #fff8e9;
+  color: #9e7835;
+  border-color: #f3e8ce;
+}
+html[data-theme="light"] .section-eyebrow > span:first-child,
+html[data-theme="light"] .mini-logo,
+html[data-theme="light"] .title-icon,
+html[data-theme="light"] .count-pill,
+html[data-theme="light"] .forecast-offset {
+  background: #fdf8ed;
+  border-color: #ebdcb9;
+  color: #b38118;
+}
+html[data-theme="light"] .map-section,
+html[data-theme="light"] .table-scroll,
+html[data-theme="light"] .rules-modal {
+  background: var(--light-surface);
+  border-color: #e5ddcf;
+  color: var(--light-text);
+}
+html[data-theme="light"] .map-wrapper {
+  background: #e9eee5;
+  color: #243a34;
+  color-scheme: light;
+}
+html[data-theme="light"] .map-actions button {
+  background: #fffffffa;
+  color: #61533e;
+  border-color: #e3dac8;
+  transition: all 0.2s ease;
+}
+html[data-theme="light"] .map-actions button:hover {
+  border-color: #b38118;
+  color: #8c6006;
+  background: #fdf8ee;
+  box-shadow: 0 0 16px var(--gold-glow);
+}
+html[data-theme="light"] .map-actions button.active {
+  background: #fdf8ed;
+  border-color: #b38118;
+  color: #8f6515;
+  box-shadow: 0 0 14px rgba(179, 129, 24, 0.25);
+}
+html[data-theme="light"] .map-legend-horizontal {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #e5ddcf;
+  box-shadow: 0 4px 18px rgba(179, 129, 24, 0.12);
+  color: var(--light-text);
+}
+html[data-theme="light"] .map-legend-horizontal .legend-title {
+  color: #b38118;
+  border-right-color: #e5ddcf;
+}
+html[data-theme="light"] .map-legend-horizontal .legend-chip {
+  color: #4f4639;
+}
+html[data-theme="light"] .map-legend-horizontal .legend-chip.has-points:hover {
+  background: #fdf8ee;
+  border-color: #ebdcb9;
+}
+html[data-theme="light"] .maplibregl-ctrl-group {
+  background: #ffffff !important;
+  border-color: #e5ddcf !important;
+  box-shadow: 0 4px 15px rgba(179, 129, 24, 0.12) !important;
+}
+html[data-theme="light"] .maplibregl-ctrl-group button:hover {
+  background: #fdf8ee !important;
+}
+html[data-theme="light"] .calculation-overlay,
+html[data-theme="light"] .checkpoint-detail {
+  background: #fffffff8;
+  border-color: #e5ddcf;
+  color: var(--light-text);
+  box-shadow: 0 8px 24px rgba(60, 45, 15, 0.1);
+}
+html[data-theme="light"] .routes-empty {
+  background: #fcfbfa;
+  border-color: #e5ddcf;
+  transition: all 0.2s ease;
+}
+html[data-theme="light"] .routes-empty:hover {
+  border-color: #b38118;
+  box-shadow: 0 0 20px rgba(179, 129, 24, 0.2);
+}
+html[data-theme="light"] .routes-empty > div {
+  background: #fdf8ed;
+  color: #b38118;
+}
+html[data-theme="light"] .forecast-time,
+html[data-theme="light"] .slider-labels,
+html[data-theme="light"] .forecast-caption,
+html[data-theme="light"] .calculation-overlay span {
+  color: var(--light-muted);
+}
+html[data-theme="light"] .map-loading {
+  color: #b38118;
+}
+html[data-theme="light"] .forecast-panel,
+html[data-theme="light"] .route-coverage,
+html[data-theme="light"] .checkpoint-section,
+html[data-theme="light"] .sidebar-bottom,
+html[data-theme="light"] .trip-notes,
+html[data-theme="light"] .app-footer {
+  border-color: #ece5d8;
+}
+html[data-theme="light"] input[type="range"] {
+  background: #e8e0d0;
+}
+html[data-theme="light"] input[type="range"]::-webkit-slider-thumb {
+  background: #ffffff;
+  border-color: #b38118;
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+html[data-theme="light"] .forecast-caption button,
+html[data-theme="light"] .checkpoint-link {
+  color: #b38118;
+  transition: all 0.15s ease;
+}
+html[data-theme="light"] .forecast-caption button:hover,
+html[data-theme="light"] .checkpoint-link:hover {
+  color: #946408;
+  text-shadow: 0 0 8px var(--gold-glow);
+}
+html[data-theme="light"] .route-card {
+  background: var(--light-surface);
+  border-color: #e5ddcf;
+  color: var(--light-text);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+html[data-theme="light"] .route-card:hover {
+  border-color: #b38118;
+  box-shadow: 0 0 25px rgba(179, 129, 24, 0.3), 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+html[data-theme="light"] .route-card.selected {
+  border-color: #b38118;
+  box-shadow: 0 0 0 2px rgba(179, 129, 24, 0.25), 0 0 24px rgba(179, 129, 24, 0.22);
+}
+html[data-theme="light"] .route-card.recommended {
+  border-color: #d6b25a;
+}
+html[data-theme="light"] .route-card.recommended .route-status {
+  background: #fdf8ed;
+  color: #8f6815;
+  border: 1px solid #ebdcb9;
+}
+html[data-theme="light"] th {
+  background: #f7f3ea;
+  color: #786d5c;
+}
+html[data-theme="light"] td {
+  border-color: #eee7db;
+  color: #4a3e2c;
+}
+html[data-theme="light"] .checkpoints-section tbody tr {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+html[data-theme="light"] .checkpoints-section tbody tr:hover,
+html[data-theme="light"] .checkpoints-section tbody tr:focus-within {
+  background: #fdf8ee;
+  box-shadow: inset 4px 0 0 #b38118;
+}
+html[data-theme="light"] .active-row {
+  background: #fdf8ee;
+  box-shadow: inset 4px 0 0 #b38118;
+}
+html[data-theme="light"] .recommendation-strip {
+  background: #fdf8ed;
+  color: #8f6815;
+  border-color: #ebdcb9;
+  box-shadow: 0 0 16px rgba(179, 129, 24, 0.15);
+  transition: all 0.2s ease;
+}
+html[data-theme="light"] .recommendation-strip:hover {
+  box-shadow: 0 0 24px rgba(179, 129, 24, 0.25);
+}
+html[data-theme="light"] .text-button:hover {
+  color: #8c6006;
+  text-shadow: 0 0 8px var(--gold-glow);
+}
+html[data-theme="light"] .setup-banner {
+  background: #fff9ed;
+  border-color: #efdfbd;
+  color: #8f6515;
+}
+html[data-theme="light"] .setup-banner code {
+  color: #765a28;
+}
+html[data-theme="light"] .weather-values > div {
+  color: #786d5c;
+}
+html[data-theme="light"] .weather-values strong {
+  color: var(--light-text);
+}
+html[data-theme="light"] .weather-values small {
+  color: #8c7e69;
+}
+html[data-theme="light"] .detail-subheading strong {
+  color: var(--light-text);
+}
+html[data-theme="light"] .checkpoint-section .risk-reason {
+  color: var(--light-muted);
+}
+html[data-theme="light"] .footer-author {
+  color: var(--light-text);
+}
+html[data-theme="light"] .author-link {
+  color: #b38118 !important;
+}
+html[data-theme="light"] .author-link:hover {
+  color: #8c6006 !important;
+  text-shadow: 0 0 8px rgba(179, 129, 24, 0.4);
+}
+
+
+/* ── Golden Dark Mode ─────────────────────────────────────────── */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --green: #dcb35c;
+  --gold: #dcb35c;
+  --gold-accent: #f3cf7a;
+  --gold-glow: rgba(220, 179, 92, 0.45);
+  --gold-surface: #2b2417;
+  --muted: #b8b0a2;
+  --border: #4d4433;
+  --dark-bg: #171512;
+  --dark-surface: #23201a;
+  --dark-raised: #322d24;
+  --dark-text: #f7f4ec;
+  --dark-muted: #c9c1b3;
+  --dark-accent: #eec86b;
+  background: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+html[data-theme="dark"] .app-header {
+  background: #1f1b15;
+  border-bottom-color: #3b3326;
+}
+html[data-theme="dark"] .sidebar {
+  background: #211d17;
+  border-right-color: #3b3326;
+}
+html[data-theme="dark"] .main-content {
+  background: var(--dark-bg);
+}
+html[data-theme="dark"] .brand-mark {
+  background: #3d3017;
+  color: #fae19c;
+  border: 1px solid #634f26;
+  transition: all 0.2s ease;
+}
+html[data-theme="dark"] .brand:hover .brand-mark {
+  box-shadow: 0 0 18px var(--gold-glow);
+  border-color: var(--gold);
+}
+html[data-theme="dark"] .brand-ai,
+html[data-theme="dark"] .brand small,
+html[data-theme="dark"] .header-center {
+  color: #cfc2a5;
+}
+html[data-theme="dark"] .text-gold {
+  color: #dcb35c;
+  background: linear-gradient(135deg, #fae4a7 0%, #dcb35c 50%, #c4993a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html[data-theme="dark"] .section-eyebrow,
+html[data-theme="dark"] .form-heading p,
+html[data-theme="dark"] .page-title-row p,
+html[data-theme="dark"] .field-hint,
+html[data-theme="dark"] .form-footnote,
+html[data-theme="dark"] .sidebar-bottom p,
+html[data-theme="dark"] .text-button,
+html[data-theme="dark"] .subtle-label,
+html[data-theme="dark"] .selected-summary,
+html[data-theme="dark"] .app-footer {
+  color: var(--dark-muted);
+}
+html[data-theme="dark"] .trip-form label,
+html[data-theme="dark"] .trip-form legend,
+html[data-theme="dark"] .sidebar-bottom p strong {
+  color: #dfd4bf;
+}
+html[data-theme="dark"] .input-icon {
+  background: #1b1814;
+  border-color: #42392b;
+  color: #d6be85;
+  transition: all 0.2s ease;
+}
+html[data-theme="dark"] .input-icon input {
+  color: var(--dark-text);
+}
+html[data-theme="dark"] .input-unit {
+  color: #baa77b;
+  border-color: #42392b;
+}
+html[data-theme="dark"] .input-icon:focus-within {
+  border-color: #dcb35c;
+  box-shadow: 0 0 14px rgba(220, 179, 92, 0.35);
+}
+html[data-theme="dark"] .swap-button,
+html[data-theme="dark"] .icon-button {
+  background: var(--dark-raised);
+  color: var(--dark-accent);
+  border-color: #574830;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-theme="dark"] .swap-button:hover,
+html[data-theme="dark"] .icon-button:hover {
+  background: #3b3221;
+  border-color: #dcb35c;
+  color: #fae4a7;
+  box-shadow: 0 0 16px var(--gold-glow);
+  transform: scale(1.08);
+}
+html[data-theme="dark"] .suggestions,
+html[data-theme="dark"] .suggestions button {
+  background: var(--dark-surface);
+  color: var(--dark-text);
+}
+html[data-theme="dark"] .suggestions button:hover {
+  background: #3b3221;
+  color: #fae4a7;
+  box-shadow: inset 3px 0 0 #dcb35c;
+}
+html[data-theme="dark"] .interval-options button {
+  background: #1a1713;
+  border-color: #443a2b;
+  color: #cfc3ac;
+  transition: all 0.2s ease;
+}
+html[data-theme="dark"] .interval-options button:hover {
+  border-color: #dcb35c;
+  color: #fae4a7;
+  box-shadow: 0 0 14px var(--gold-glow);
+}
+html[data-theme="dark"] .interval-options button[aria-pressed="true"] {
+  background: #3d3119;
+  color: #fae4a7;
+  border-color: #dcb35c;
+  box-shadow: 0 0 16px rgba(220, 179, 92, 0.35);
+}
+html[data-theme="dark"] .calculate-button {
+  background: #dcb35c;
+  border-color: #dcb35c;
+  color: #1f1807;
+  font-weight: 650;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-theme="dark"] .calculate-button:hover {
+  background: #ebd07a;
+  border-color: #ebd07a;
+  box-shadow: 0 0 25px rgba(220, 179, 92, 0.65), 0 0 5px #fae19c;
+  transform: translateY(-1px);
+}
+html[data-theme="dark"] .theme-switch {
+  background: #1a1814;
+  border-color: #42392b;
+}
+html[data-theme="dark"] .theme-switch button {
+  color: #baa788;
+  transition: all 0.2s ease;
+}
+html[data-theme="dark"] .theme-switch button:hover {
+  background: #2d2415;
+  color: #fae4a7;
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+html[data-theme="dark"] .theme-switch button[aria-pressed="true"] {
+  background: #3a2e18;
+  border-color: #7a612d;
+  color: #fae4a7;
+  box-shadow: 0 0 10px rgba(220, 179, 92, 0.25);
+}
+html[data-theme="dark"] .service-status {
+  color: #f0d58e;
+  background: #2f2513;
+  border-color: #574320;
+}
+html[data-theme="dark"] .service-status .status-dot {
+  background: #e5bf65;
+  box-shadow: 0 0 8px #e5bf65;
+}
+html[data-theme="dark"] .service-status.needs-setup {
+  background: #3b2c14;
+  color: #f5d487;
+  border-color: #785a25;
+}
+html[data-theme="dark"] .section-eyebrow > span:first-child,
+html[data-theme="dark"] .mini-logo,
+html[data-theme="dark"] .title-icon,
+html[data-theme="dark"] .count-pill,
+html[data-theme="dark"] .forecast-offset {
+  background: #362c17;
+  border-color: #594522;
+  color: #eed58f;
+}
+html[data-theme="dark"] .map-section,
+html[data-theme="dark"] .table-scroll,
+html[data-theme="dark"] .rules-modal {
+  background: var(--dark-surface);
+  border-color: #4d4433;
+  color: var(--dark-text);
+}
+html[data-theme="dark"] .map-wrapper {
+  background: #e9eee5;
+  color: #243a34;
+  color-scheme: light;
+}
+html[data-theme="dark"] .map-actions button {
+  background: #23201a;
+  color: #cfc2a5;
+  border-color: #4d4433;
+  transition: all 0.2s ease;
+}
+html[data-theme="dark"] .map-actions button:hover {
+  border-color: #dcb35c;
+  color: #fae4a7;
+  background: #2b2417;
+  box-shadow: 0 0 16px var(--gold-glow);
+}
+html[data-theme="dark"] .map-actions button.active {
+  background: #3a2e16;
+  border-color: #dcb35c;
+  color: #fae4a7;
+  box-shadow: 0 0 14px rgba(220, 179, 92, 0.35);
+}
+html[data-theme="dark"] .map-legend-horizontal {
+  background: rgba(29, 25, 20, 0.92);
+  border-color: #4d4433;
+  color: var(--dark-text);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+html[data-theme="dark"] .map-legend-horizontal .legend-title {
+  color: #fae19c;
+  border-right-color: rgba(220, 179, 92, 0.3);
+}
+html[data-theme="dark"] .map-legend-horizontal .legend-chip {
+  color: #dfd4bf;
+}
+html[data-theme="dark"] .map-legend-horizontal .legend-chip.has-points:hover {
+  background: #362d19;
+  border-color: #705829;
+}
+html[data-theme="dark"] .maplibregl-ctrl-group {
+  background: #23201a !important;
+  border-color: #4d4433 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+}
+html[data-theme="dark"] .maplibregl-ctrl-group button {
+  border-bottom-color: #3b3326 !important;
+  color: #dfd4bf !important;
+}
+html[data-theme="dark"] .maplibregl-ctrl-group button:hover {
+  background: #362d19 !important;
+  box-shadow: inset 0 0 10px rgba(220, 179, 92, 0.3) !important;
+}
+html[data-theme="dark"] .maplibregl-ctrl-icon {
+  filter: invert(1) brightness(1.2) sepia(0.3) hue-rotate(5deg);
+}
+html[data-theme="dark"] .calculation-overlay,
+html[data-theme="dark"] .checkpoint-detail {
+  background: #29241cf7;
+  border-color: #594b33;
+  color: var(--dark-text);
+  box-shadow: 0 8px 24px #0006;
+}
+html[data-theme="dark"] .routes-empty {
+  background: #191612;
+  border-color: #423827;
+  transition: all 0.2s ease;
+}
+html[data-theme="dark"] .routes-empty:hover {
+  border-color: #dcb35c;
+  box-shadow: 0 0 20px rgba(220, 179, 92, 0.25);
+}
+html[data-theme="dark"] .routes-empty > div {
+  background: #362c17;
+  color: #f0d58e;
+}
+html[data-theme="dark"] .forecast-time,
+html[data-theme="dark"] .slider-labels,
+html[data-theme="dark"] .forecast-caption,
+html[data-theme="dark"] .calculation-overlay span {
+  color: var(--dark-muted);
+}
+html[data-theme="dark"] .map-loading {
+  color: #dcb35c;
+}
+html[data-theme="dark"] .forecast-panel,
+html[data-theme="dark"] .route-coverage,
+html[data-theme="dark"] .checkpoint-section,
+html[data-theme="dark"] .sidebar-bottom,
+html[data-theme="dark"] .trip-notes,
+html[data-theme="dark"] .app-footer {
+  border-color: #3b3326;
+}
+html[data-theme="dark"] input[type="range"] {
+  background: #3d3425;
+}
+html[data-theme="dark"] input[type="range"]::-webkit-slider-thumb {
+  background: #fae4a7;
+  border-color: #dcb35c;
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+html[data-theme="dark"] .forecast-caption button,
+html[data-theme="dark"] .checkpoint-link {
+  color: #eed58f;
+  transition: all 0.15s ease;
+}
+html[data-theme="dark"] .forecast-caption button:hover,
+html[data-theme="dark"] .checkpoint-link:hover {
+  color: #fae4a7;
+  text-shadow: 0 0 10px var(--gold-glow);
+}
+html[data-theme="dark"] .routes-empty p span,
+html[data-theme="dark"] .empty-step,
+html[data-theme="dark"] .route-card-top,
+html[data-theme="dark"] .route-status,
+html[data-theme="dark"] .route-title small,
+html[data-theme="dark"] .route-duration,
+html[data-theme="dark"] .route-duration svg,
+html[data-theme="dark"] .route-metrics div > span,
+html[data-theme="dark"] .route-coverage,
+html[data-theme="dark"] .checkpoints-section th,
+html[data-theme="dark"] .trip-notes > button,
+html[data-theme="dark"] .trip-notes ul,
+html[data-theme="dark"] .app-footer {
+  color: var(--dark-muted);
+}
+
+/* Route Cards & Menu Cards Golden Glow in Dark Mode */
+html[data-theme="dark"] .route-card {
+  background: var(--dark-surface);
+  border-color: #4d4433;
+  color: var(--dark-text);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+html[data-theme="dark"] .route-card:hover {
+  border-color: #dcb35c;
+  box-shadow: 0 0 25px rgba(220, 179, 92, 0.38), 0 8px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+html[data-theme="dark"] .route-card.selected {
+  border-color: #dcb35c;
+  box-shadow: 0 0 0 2px #dcb35c40, 0 0 24px rgba(220, 179, 92, 0.3);
+}
+html[data-theme="dark"] .route-card.recommended {
+  border-color: #705829;
+}
+html[data-theme="dark"] .route-card.recommended .route-status {
+  background: #3a2e16;
+  color: #fae4a7;
+  border: 1px solid #705829;
+}
+html[data-theme="dark"] .route-card-top { color: #a69b85; }
+html[data-theme="dark"] .tiny-dot { background: #7a6e57; }
+html[data-theme="dark"] .route-title h3,
+html[data-theme="dark"] .route-title > span,
+html[data-theme="dark"] .route-metrics strong { color: var(--dark-text); }
+html[data-theme="dark"] .route-metrics .red { color: #f28b82; }
+html[data-theme="dark"] .risk-bar { background: #262016; }
+html[data-theme="dark"] th { background: #29241c; color: #cfc2a5; }
+html[data-theme="dark"] td { border-color: #3b3326; color: #dfd4bf; }
+html[data-theme="dark"] .checkpoints-section tbody tr {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+html[data-theme="dark"] .checkpoints-section tbody tr:hover,
+html[data-theme="dark"] .checkpoints-section tbody tr:focus-within {
+  background: #362d19;
+  box-shadow: inset 4px 0 0 #dcb35c;
+}
+html[data-theme="dark"] .active-row {
+  background: #362d19;
+  box-shadow: inset 4px 0 0 #dcb35c;
+}
+html[data-theme="dark"] .recommendation-strip {
+  background: #2f2513;
+  color: #f0d58e;
+  border-color: #574320;
+  box-shadow: 0 0 16px rgba(220, 179, 92, 0.15);
+  transition: all 0.2s ease;
+}
+html[data-theme="dark"] .recommendation-strip:hover {
+  box-shadow: 0 0 24px rgba(220, 179, 92, 0.3);
+}
+html[data-theme="dark"] .recommendation-strip.no-safe {
+  background: #3b231f;
+  color: #f28b82;
+  border-color: #683b34;
+  box-shadow: 0 0 16px rgba(242, 139, 130, 0.15);
+}
+html[data-theme="dark"] .text-button:hover {
+  color: #fae4a7;
+  text-shadow: 0 0 10px var(--gold-glow);
+}
+html[data-theme="dark"] .setup-banner { background: #3b2c14; border-color: #785a25; color: #f5d487; }
+html[data-theme="dark"] .setup-banner code { color: #fbe2a7; }
+html[data-theme="dark"] .error-banner { background: #3b231f; border-color: #683b34; color: #f28b82; }
+html[data-theme="dark"] .inline-error { color: #f28b82; }
+html[data-theme="dark"] .weather-values > div { color: #cfc2a5; }
+html[data-theme="dark"] .weather-values strong { color: var(--dark-text); }
+html[data-theme="dark"] .weather-values small { color: #a1957c; }
+html[data-theme="dark"] .detail-subheading strong { color: var(--dark-text); }
+html[data-theme="dark"] .checkpoint-section .risk-reason { color: var(--dark-muted); }
+html[data-theme="dark"] .footer-author { color: var(--dark-text); }
+html[data-theme="dark"] .author-link { color: #dcb35c !important; }
+html[data-theme="dark"] .author-link:hover { color: #fae4a7 !important; text-shadow: 0 0 10px rgba(220, 179, 92, 0.6); }

@@ -1,0 +1,55 @@
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+from .truck import load_truck_dimensions
+from .cache import cache_settings, deployment_hosts
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
+DEBUG = os.getenv('DJANGO_DEBUG', 'false' if os.getenv('VERCEL') == '1' else 'true').lower() == 'true'
+if os.getenv('VERCEL') == '1' and DEBUG:
+    raise ValueError('DJANGO_DEBUG must be false on Vercel.')
+SECRET_KEY = os.getenv('SECRET_KEY', 'development-only-spotter-key')
+if not DEBUG and SECRET_KEY in ('development-only-spotter-key', 'local-development-change-before-deployment'):
+    raise ValueError('Set a unique SECRET_KEY before running in production.')
+ALLOWED_HOSTS = [x.strip() for x in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',') if x.strip()]
+ALLOWED_HOSTS.extend(deployment_hosts(os.environ))
+INSTALLED_APPS = ['django.contrib.contenttypes', 'django.contrib.staticfiles', 'rest_framework', 'corsheaders', 'routing']
+MIDDLEWARE = ['django.middleware.security.SecurityMiddleware', 'corsheaders.middleware.CorsMiddleware', 'django.middleware.common.CommonMiddleware']
+MIDDLEWARE.append('config.middleware.CacheUnavailableMiddleware')
+if not DEBUG:
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+ROOT_URLCONF = 'config.urls'
+WSGI_APPLICATION = 'config.wsgi.application'
+DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
+USE_TZ = True
+TIME_ZONE = 'UTC'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CORS_ALLOWED_ORIGINS = [x.strip() for x in os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173').split(',') if x.strip()]
+CACHES = cache_settings(os.environ)
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'UNAUTHENTICATED_USER': None,
+    'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
+    'DEFAULT_THROTTLE_CLASSES': ['rest_framework.throttling.AnonRateThrottle'],
+    'DEFAULT_THROTTLE_RATES': {'anon': '120/hour'},
+}
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+WHITENOISE_ROOT = None if os.getenv('VERCEL') == '1' else BASE_DIR.parent / 'frontend' / 'dist'
+WHITENOISE_MAX_AGE = 86400
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+SECURE_SSL_REDIRECT = os.getenv('DJANGO_SECURE_SSL_REDIRECT', str(not DEBUG)).lower() == 'true'
+TOMTOM_API_KEY = os.getenv('TOMTOM_API_KEY', '')
+TRUCK_EMPTY_WEIGHT_LB = float(os.getenv('TRUCK_EMPTY_WEIGHT_LB', '18000'))
+TRUCK_DIMENSIONS = load_truck_dimensions(os.environ)
+PROVIDER_TIMEOUT_SECONDS = float(os.getenv('PROVIDER_TIMEOUT_SECONDS', '15'))
+WEATHER_API_URL = os.getenv('WEATHER_API_URL', 'https://api.open-meteo.com/v1/forecast')
+OPEN_METEO_API_KEY = os.getenv('OPEN_METEO_API_KEY', '')
+MAX_WEATHER_LOCATIONS = int(os.getenv('MAX_WEATHER_LOCATIONS', '450'))
