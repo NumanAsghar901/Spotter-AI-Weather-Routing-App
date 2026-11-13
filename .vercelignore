@@ -1,0 +1,15 @@
+.git
+.github
+.venv
+backend/.env
+frontend/.env
+*.sqlite3
+*.log
+coverage/
+htmlcov/
+test-results/
+playwright-report/
+docs/
+Dockerfile
+.pytest_cache/
+.ruff_cache/
