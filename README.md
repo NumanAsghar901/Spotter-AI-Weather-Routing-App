@@ -1,284 +1,85 @@
 # Spotter AI — Weather-Aware Truck Routing
 
-A React + Django trip planner that compares actual truck routes using weather at the truck's estimated arrival time. Cargo load affects wind risk; a deterministic, distance-weighted comparison selects an eligible route. An independent 0–48-hour forecast slider explores weather across the trip corridor.
+> A modern, production-grade truck routing platform that evaluates weather conditions at estimated arrival times along real road corridors, calculates dynamic cargo-wind risks, and recommends the safest route.
 
-## Deployment
+**Developed by [Numan Asghar](https://portfolio-numanasghar.vercel.app/)** • [GitHub Repository](https://github.com/NumanAsghar901/Spotter-AI-Weather-Routing-App)
 
-| Service | Deployed URL |
-|---|---|
-| React frontend | *(To be configured)* |
-| Django backend health API | *(To be configured)* |
+---
 
-See [API documentation](docs/API.md) for endpoint details.
+## ✨ Key Features
 
-## Features
+- **🚛 Intelligent Truck Routing**: Multi-alternative highway routes calculated with TomTom Truck Routing API following real vehicle height, weight, and dimension parameters.
+- **🌦️ ETA-Synchronized Forecasts**: Checkpoint weather forecasts queried from Open-Meteo for the exact estimated arrival time at each segment.
+- **⚠️ Dynamic Cargo-Aware Risk Engine**: Automatic wind, rain, and snow risk classification factored with vehicle empty tare + cargo weight.
+- **🗺️ Interactive Map & Radar Corridor**: MapLibre GL visualization with clickable checkpoints, color-coded risk segments, and a 0–48 hour weather forecast slider.
+- **🎨 Premium Golden UI/UX**: Sleek dark and light themes with glowing gold accents, fully responsive across mobile, tablet, and desktop.
 
-- Human-readable origin/destination search, local departure date/time, cargo weight in pounds, and 10/25/50-mile checkpoint spacing.
-- TomTom truck routing with up to three distinct alternatives; fewer available routes are explained, never fabricated.
-- Checkpoints interpolated along road geometry, including the origin, destination, and final partial interval.
-- Open-Meteo hourly forecasts at checkpoint ETAs, with explicit unit normalization and missing-data handling.
-- Independent wind/rain/snow classification, exact cargo overrides, distance-weighted risk miles, and lexicographic ranking.
-- MapLibre alternatives, risk-colored road segments, clickable checkpoints, detailed weather, and route summaries.
-- Forecast-backed corridor heatmap with real selected-hour data; slider changes do not alter arrival-time recommendations.
-- Responsive layout, loading/cancellation/retry states, provider/setup errors, and accessible text labels alongside colors.
-- Saved light/dark theme switch in the header. Both modes keep the clear light basemap. Dark mode is the default; switching preserves the current trip, selected checkpoint, and forecast hour.
+---
 
-There are no user accounts, saved trips, fleet features, or production mock data. Trips are ephemeral calculations cached for one hour.
+## 🛠️ Tech Stack
 
-## Stack and architecture
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS 4, MapLibre GL JS, Lucide Icons.
+- **Backend**: Python 3.13, Django 5.2 LTS, Django REST Framework, Requests, Redis.
+- **APIs**: TomTom (Routing & Geocoding), Open-Meteo (Hourly Weather), CARTO Positron (Basemaps).
+- **Deployment**: Vercel Services (monorepo frontend + serverless Django WSGI).
 
-React 19, TypeScript, Vite, Tailwind CSS 4, MapLibre GL JS, and Lucide; Django 5.2 LTS, Django REST Framework, and Requests.
+---
 
-```text
-React inputs → Django validation → TomTom geocoding + truck alternatives
-  → cumulative-distance checkpoints + ETAs → batched Open-Meteo forecasts
-  → weather + cargo risk → distance-weighted road segments → ranked routes
-  → React map, comparisons, and checkpoint table
+## 🚀 Quick Start (Local Development)
 
-Forecast slider → cached trip forecast endpoint → selected-hour corridor map
-```
-
-```text
-backend/
-  config/                Environment, URLs, WSGI, production static serving
-  routing/               DRF serializers and HTTP endpoints
-  services/              Providers, geometry, weather, risk, ranking, orchestration
-  tests/                 Calculation, provider, and API integration tests
-frontend/
-  src/components/        Trip form, map, comparisons, checkpoint details
-  src/hooks/             Abortable, debounced, cached forecast retrieval
-  src/services/          Typed HTTP client
-  e2e/                   Isolated browser fixtures and interaction tests
-docs/                    API contract
-vercel.json              Production Vercel Services routing and build configuration
-Dockerfile               Optional local frontend build + Django runtime
-.github/workflows/ci.yml  Backend, frontend, build, and browser checks
-```
-
-No database-backed application models are required: normalized `Trip`, `Route`, `Checkpoint`, `Weather`, `Risk`, and `Forecast` response contracts live in `frontend/src/types.ts` and [docs/API.md](docs/API.md). Business logic is separate from HTTP views. Django's unused SQLite default requires no migrations for this app.
-
-## Prerequisites
-
-- Python 3.12–3.14 (verified locally with 3.14; deployment uses 3.13).
-- Node.js 22.13+ or 24+ and npm (including ESLint development tooling).
-- A TomTom developer API key authorized for Search and Routing.
-- Internet access for provider APIs, basemap tiles, glyphs, and browser installation.
-- Docker is optional.
-
-## Local setup
-
-Run these from the repository root in PowerShell:
-
+### 1. Backend Setup
 ```powershell
+# Create and activate virtual environment
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+.\.venv\Scripts\Activate.ps1
+
+# Install dependencies
+pip install -r backend\requirements.txt
+
+# Configure environment variables
 Copy-Item backend\.env.example backend\.env
+# Edit backend/.env and insert your TOMTOM_API_KEY
+
+# Start Django development server (runs on port 8000)
+python backend\manage.py runserver 127.0.0.1:8000
 ```
 
-Edit `backend/.env` and set `TOMTOM_API_KEY`. Keep `DJANGO_DEBUG=true` locally. Start Django:
-
+### 2. Frontend Setup
 ```powershell
-Set-Location backend
-..\.venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000
-```
-
-In another terminal:
-
-```powershell
-Set-Location frontend
-npm ci
+# In a separate terminal
+cd frontend
+npm install
 npm run dev
 ```
+Open **[http://localhost:5173](http://localhost:5173)** in your browser.
 
-Open **http://127.0.0.1:5173**. Vite proxies `/api` to Django at port 8000. Health is at **http://127.0.0.1:8000/api/health/**. The frontend starts without a key and shows setup instructions; route calculation returns an explicit 503 until routing is configured.
+---
 
-After changing `backend/.env`, restart Django. The setup banner rechecks every five seconds while routing is unavailable and also offers **Check again**. Returning to the browser tab refreshes service status, so an old setup message clears without losing trip inputs.
+## 🌐 Deploy to Vercel
 
-macOS/Linux equivalents use `python3 -m venv .venv`, `.venv/bin/python`, and `cp backend/.env.example backend/.env`. From `backend`, use `../.venv/bin/python manage.py runserver`.
+1. Import this repository into [Vercel](https://vercel.com/new).
+2. Set the following **Environment Variables** in project settings:
+   - `TOMTOM_API_KEY`: Your TomTom developer key.
+   - `REDIS_URL`: Upstash/Vercel Redis TLS connection URL (`rediss://...`).
+   - `SECRET_KEY`: Random 64-character Django secret (`python -c "import secrets; print(secrets.token_urlsafe(64))"`).
+   - `DJANGO_DEBUG`: `false`
+3. Click **Deploy**. Both the Vite frontend and Django WSGI backend deploy seamlessly under one domain via [vercel.json](vercel.json).
 
-## Environment configuration
+---
 
-| Backend variable | Purpose |
-|---|---|
-| `TOMTOM_API_KEY` | Required private Search/Routing key; never sent to the browser |
-| `DJANGO_DEBUG` | `true` locally; `false` in production |
-| `SECRET_KEY` | Unique random production secret; production rejects the supplied development values |
-| `ALLOWED_HOSTS` | Comma-separated backend hostnames; Vercel deployment, branch and production hosts are included automatically |
-| `REDIS_URL` | Required TLS Redis TCP URL on Vercel; blank locally uses process-memory caching |
-| `CORS_ALLOWED_ORIGINS` | Exact frontend origins for split hosting; default local Vite origins |
-| `TRUCK_EMPTY_WEIGHT_LB` | Empty vehicle weight, default 18,000 lb; cargo is added before TomTom's kg conversion |
-| `TRUCK_HEIGHT_M`, `TRUCK_WIDTH_M`, `TRUCK_LENGTH_M` | Optional real vehicle dimensions in metres; blank/whitespace means unspecified. Configured values must be finite and positive; restart Django after changing them |
-| `PROVIDER_TIMEOUT_SECONDS` | Provider read timeout, default 15 seconds; connect timeout is 5 seconds |
-| `WEATHER_API_URL` | Open-Meteo forecast endpoint; set customer endpoint for a commercial subscription |
-| `OPEN_METEO_API_KEY` | Optional commercial key; server-side only |
-| `MAX_WEATHER_LOCATIONS` | Maximum unique weather samples per trip, default 450 |
-| `DJANGO_SECURE_SSL_REDIRECT` | Defaults to true in production; disable only for local Docker HTTP checks |
-
-| Frontend variable | Purpose |
-|---|---|
-| `VITE_API_BASE_URL` | Empty for local proxy and same-origin Vercel/Docker; full backend origin only for split hosting |
-| `VITE_MAP_STYLE_URL` | Public MapLibre style URL used in both themes; defaults to CARTO Positron |
-
-Frontend variables are public build-time configuration. Do not place private credentials in any `VITE_*` variable. `.env` files are ignored by Git and Docker.
-
-Get a key from the [TomTom developer portal](https://developer.tomtom.com/). The implementation follows [Calculate Route](https://docs.tomtom.com/routing-api/documentation/tomtom-maps/v1/calculate-route) and [Search](https://docs.tomtom.com/search-api/documentation/search-service/fuzzy-search). TomTom usage quotas depend on the account; a provider may return fewer than the requested two alternatives.
-
-[Open-Meteo documentation](https://open-meteo.com/en/docs) describes the forecast fields and units. Its public API is intended for non-commercial use; check [licensing and pricing](https://open-meteo.com/en/pricing) before commercial deployment. CARTO/OpenStreetMap attribution is displayed by the map. Verify a suitable tile-service plan before substantial production traffic.
-
-## Risk rules and boundaries
-
-Shared boundaries take the higher severity. Wind integer bands extend continuously to the next threshold; e.g. 34.9 mph is Moderate and 44.9 mph is High. Explicit strict upper thresholds are preserved: rain **1.00** and snow **3.00** remain Severe.
-
-| Risk | Wind mph | Rain in/hr | Snow in/hr |
-|---|---|---|---|
-| Low | `<25` | `<0.10` | `<0.5` |
-| Moderate | `25–<35` | `0.10–<0.25` | `0.5–<1` |
-| High | `35–<45` | `0.25–<0.50` | `1–<2` |
-| Severe | `45–<55` | `0.50–1.00` | `2–3` |
-| No Travel | `≥55` | `>1.00` | `>3` |
-
-Each condition is classified independently and the maximum applies. Cargo overrides then apply:
-
-- Wind ≥55 mph: No Travel for any cargo.
-- Wind 45–<55 mph and cargo **>30,000 lb**: No Travel.
-- Wind 35–<45 mph and cargo **>40,000 lb**: at least Severe.
-
-Exactly 30,000/40,000 lb do not satisfy the respective strict inequalities. Missing, negative, non-finite, or unsupported-unit data is never replaced with zero. Partial weather yields Unknown unless an observed condition already proves No Travel; the coverage flag remains incomplete in either case.
-
-## Checkpoints, ETAs, and weather selection
-
-The backend computes haversine lengths of consecutive road-geometry vertices, calibrates cumulative lengths to the provider's total road distance, and spherically interpolates positions at exact mileage targets. It preserves original road vertices in rendered segments. The origin and destination are always included, with no duplicate terminal checkpoint for an exact interval multiple.
-
-Checkpoint ETA uses TomTom's cumulative distance/travel-time progress, requested with `extendedRouteRepresentation=distance` and `travelTime`. Elapsed time is interpolated between the surrounding provider progress points, so slower road sections receive more time. The profile must cover the entire route with finite, monotone distances/times and totals matching the route summary (within provider rounding). If unavailable or invalid, ETA falls back to `departure + total_duration × cumulative_distance / route_distance` and the trip notes explicitly disclose the uniform-speed estimate. Origin and destination times remain tied to departure and the provider's total duration. Rest stops, hours-of-service rules, and later traffic changes are excluded.
-
-Timestamps are offset-aware UTC internally. The form explicitly uses the device timezone; all displayed times use that timezone, including for trips crossing zones. Nonexistent spring-forward times are rejected; repeated fall-back times resolve to the browser's earlier occurrence. API callers can choose either repeated instant by sending an explicit offset. No naive departure timestamps are accepted.
-
-Hourly forecasts use Unix timestamps in UTC. Rain plus showers represent liquid rainfall; snowfall represents snow depth. Units are read from provider metadata and converted to mph/inches, including metric snowfall cm → inches when necessary. Rain/snow are preceding-hour accumulations: an ETA selects the hour ending at or immediately after that instant. This is an hourly average, not an instantaneous precipitation measurement. Forecasts outside returned timestamps are unavailable; values are not extrapolated.
-
-## Distance weighting and recommendation
-
-Each checkpoint interval takes the **more severe endpoint**. If either endpoint is Unknown, the segment is Unknown unless another endpoint proves No Travel. This conservative choice includes the destination and final partial interval, preserves total miles, and avoids counting checkpoints as distance. Coarser sampling can still miss localized weather; risk miles are estimates and can change with interval selection.
-
-Known risk scores are Low=0, Moderate=1, High=2, Severe=3, No Travel=4. Average risk is `sum(segment miles × score) / total miles` and is **null when weather coverage is incomplete**. Coverage is the distance whose two endpoint forecasts are complete.
-
-Routes are ineligible if any checkpoint proves No Travel, any weather is incomplete, or TomTom reports a non-truck section. Eligible routes rank lexicographically by:
-
-1. Severe miles.
-2. High miles.
-3. Distance-weighted average risk.
-4. Duration seconds.
-
-An exact tie breaks by stable provider route ID. There is no arbitrary weighted optimization score. If no route is eligible, the UI displays **No safe route available** and the reason. A recommendation means best under these supplied assessment rules; dimensions/restrictions still require verification.
-
-## Forecast slider and heatmap
-
-The 0–48-hour slider is anchored to the **trip departure instant**. It requests actual forecasts for that single instant at checkpoint coordinates and at centerline/±12-mile cross-corridor samples approximately every 50 miles along all alternatives. These lateral samples represent a corridor, not additional routing alternatives.
-
-MapLibre renders one heatmap per risk category so color represents risk rather than falsely presenting dense Low-risk samples as High risk. Spatial kernels visualize sparse forecast samples; this is not radar or a continuously observed weather field. Unknown corridor samples have gray markers and an unavailable-count message. Checkpoint details show both arrival-time weather and the slider's selected-hour weather. Road-segment colors and recommendations always retain arrival-time risk.
-
-Forecast requests debounce by 160 ms, cancel stale requests, and cache visited hours in the browser. The map instance is preserved and source data updates in place. Geocoding debounces by 450 ms. Weather requests deduplicate coordinates, batch 25 locations, and use at most three concurrent provider requests; successful weather is cached 15 minutes. Trips expire after one hour. Local memory-cache trips are also lost on a server restart; Vercel Redis trips survive individual instance restarts but a new deployment uses a separate cache namespace. Trip forecasts are snapshots; recalculate to refresh them.
-
-## API
-
-See [docs/API.md](docs/API.md) for request/response contracts.
-
-| Method | Endpoint | Behavior |
-|---|---|---|
-| GET | `/api/health/` | Service and routing configuration state |
-| GET | `/api/places/?q=...` | Human-readable location suggestions |
-| POST | `/api/routes/calculate/` | Full arrival-time route analysis |
-| GET | `/api/trips/{uuid}/` | Cached calculation |
-| GET | `/api/trips/{uuid}/forecast/?hour=0..48` | Independent selected-hour forecast |
-
-Validation errors return 400; invalid locations/no route return 422; missing credentials return 503; provider timeout returns 504; rate limiting returns 429; expired trips return 404. Provider details and secrets are not echoed. Forecast provider failures yield Unknown data and explicit warnings rather than a fictitious success.
-
-## Tests and production build
-
-Install backend development tools with `.\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt`. ESLint requires Node 20.19+, 22.13+, or 24+. The frontend development dependencies are installed by `npm.cmd ci` in `frontend/`.
+## 🧪 Testing
 
 ```powershell
-# From the project root
-.\.venv\Scripts\python.exe -m ruff check backend
+# Run backend tests (70 unit & integration tests)
+python backend\manage.py test backend/tests
 
-# From backend/
-..\.venv\Scripts\python.exe manage.py check
-..\.venv\Scripts\python.exe manage.py test tests --verbosity 2
-
-# From frontend/
-npm.cmd run lint
-npm test
-npm run build
-npx playwright install chromium
-npm run test:e2e
-
-# Optional quick checks in Chromium, Firefox and WebKit
-npx.cmd playwright install firefox webkit
-npm.cmd run test:cross-browser
+# Run frontend tests & build check
+npm --prefix frontend test
+npm --prefix frontend run build
 ```
 
-Backend tests cover supplied thresholds, load boundaries, invalid weather, geometry and ETA sampling, distance weighting, all ranking priorities, No Travel/incomplete exclusion, provider behavior, and API orchestration. Frontend tests cover inputs and timestamp conversion. Playwright exercises desktop/mobile forms, route results, checkpoint inspection, the forecast slider, errors/retry, and overflow. Browser/API tests use isolated fixtures and do not prove live TomTom authorization. The frontend has no fixture mode.
+---
 
-MapLibre is pinned to 5.24.0 with the upstream attribution-sanitizer security fix backported by `frontend/scripts/patch-maplibre-security.mjs`. Installation, development startup and builds verify/apply this patch; unknown package versions or contents fail closed. Run `npm.cmd run test:security` for patch-integrity regressions. Review this backport before changing the MapLibre pin. The prior version-based npm security audit reported 13 affected packages: this backported production dependency and 12 development-only entries. Retained tooling findings concern tinypool prototype-pollution gadgets, unused standalone Vitest mock-server plugins, and minimatch's unconfigured higher-optimization path. Use trusted local tests/configuration and keep development servers private; these findings are not a claim of zero security risk. Published fixes require incompatible dependency changes, including MapLibre 6.4.1+, so no forced upgrades or audit suppressions were applied.
+## 📄 Author
 
-GitHub Actions runs backend/frontend tests, the production build and Chromium browser checks. Local audit reports, manual test records, optional helper scripts and walkthrough material are archived outside this repository and are not required to run, test or deploy the application.
-
-## Deployment
-
-### Vercel: React + Django + Redis
-
-The root `vercel.json` defines two Services: Vite in `frontend/` and Django in `backend/`. Public `/api/*` requests go to Django with their path preserved; other requests go to React. Both use the same domain, so `VITE_API_BASE_URL` stays unset. The MapLibre security patch remains part of the frontend install and build steps.
-
-1. Create a Redis database, for example through [Vercel Marketplace Redis](https://vercel.com/docs/redis) / Upstash. Obtain its **TLS TCP connection URL** (`rediss://default:password@host:port`), not the HTTPS REST URL/token pair. Check your provider's limits and selected plan.
-2. Import the repository in Vercel. Keep **Root Directory `./`** and **Application Preset `Services`**. Import both services together rather than selecting an individual application.
-3. Add the following private project environment variables for the environments you intend to deploy. Use separate credentials/databases for production and previews where possible. Never prefix private keys with `VITE_` or commit their values.
-
-| Variable | Value |
-|---|---|
-| `TOMTOM_API_KEY` | Your authorized routing/search API key |
-| `SECRET_KEY` | A new random Django secret, generated privately with `python -c "import secrets; print(secrets.token_urlsafe(64))"` |
-| `DJANGO_DEBUG` | `false` |
-| `REDIS_URL` | The Redis provider's TLS `rediss://` connection URL |
-| `TRUCK_EMPTY_WEIGHT_LB` | Real vehicle's empty weight; default is 18000 |
-| `ALLOWED_HOSTS` | Add any custom domain you use; Vercel deployment/branch/production hostnames are also read from system variables |
-
-4. Leave `VITE_API_BASE_URL` unset so the frontend calls same-origin `/api`. Keep Vercel's system environment variables exposed to the backend. Standard public Open-Meteo evaluation and CARTO configuration need no extra key for this setup; review provider terms for actual use.
-5. Deploy. Confirm `/api/health/`, calculate a real trip, select alternatives/checkpoints, and move the forecast slider through 0/12/24/48/0. Check both frontend and backend logs if a build or request fails. This repository configuration alone is not evidence of a successful hosted deployment.
-
-All deployed backend instances share Redis for trips, weather and throttling. Cache keys are isolated by deployment and environment; a new deployment starts a new namespace. Trips still expire after one hour. Local development without `REDIS_URL` retains the existing process-memory cache. On Vercel, missing Redis or enabled debug mode stops startup; Redis errors return a sanitized HTTP 503 rather than inventing a forecast or a recommendation.
-
-Official configuration references: [Vercel Services](https://vercel.com/kb/guide/vercel-services), [Django on Vercel](https://vercel.com/docs/frameworks/full-stack/django). Python 3.13 is selected in `backend/.python-version`. No SQLite-backed application models or migrations are required.
-
-Deployment verification: the hosted frontend and `/api/health/` returned HTTP 200. A user-run hosted Dallas to Austin trip displayed three alternatives, checkpoint forecasts and arrival times; the user also confirmed that changing the forecast slider updated the displayed forecast values. This is a production smoke check, not verification of every route or edge case. Ten isolated deployment tests use fakeredis to cover cache configuration, independent Redis-backed cache clients, cross-instance trip/forecast retrieval, TTLs, namespace isolation, missing/TLS-invalid URLs, and sanitized storage failures.
-
-### Optional local Docker deployment
-
-The supplied Docker image is an optional local deployment fallback; Vercel does not use it. It builds React and serves it with Django/WhiteNoise under one origin. Gunicorn uses one process with four threads. Without Redis, keep one process/instance; with `REDIS_URL`, cache data is shared. Supply a unique production secret and an authorized TomTom key.
-
-Local Docker verification:
-
-```powershell
-docker build -t spotter-routing .
-# Set a unique SECRET_KEY in backend/.env before using production mode.
-docker run --rm -p 8000:8000 --env-file backend/.env -e DJANGO_DEBUG=false -e DJANGO_SECURE_SSL_REDIRECT=false spotter-routing
-```
-
-Open http://localhost:8000 for this local Docker check. Public production deployments retain the default HTTPS redirect.
-
-| Deliverable | Current link/status |
-|---|---|
-| GitHub repository | [Ahamdkhan1777/spotter-weather-routing](https://github.com/Ahamdkhan1777/spotter-weather-routing) |
-| Hosted frontend | *(To be configured)* |
-| Hosted backend | *(To be configured)* |
-| Loom | Recording and upload not performed |
-
-## Known limitations
-
-- Live TomTom geocoding and the three-route Dallas → Austin truck flow were verified locally. A valid server-side API key remains required in each environment; automated fixtures alone do not verify account authorization.
-- Forecast horizon varies by weather model, field, location, and departure; requested 16-day data is not a guarantee of complete coverage.
-- Only cargo weight is entered by the user. Truck empty weight/dimensions are operator configuration; unspecified dimensions are not checked.
-- The route recommendation follows the assessment's load rules exactly, including their supplied heavier-load wind overrides.
-- Checkpoint ETAs interpolate provider timing points, with a disclosed uniform-speed fallback when unavailable. Conservative endpoint segment risks remain sampled estimates.
-- Corridor forecasts are sparse spatial samples rendered as kernels, not radar.
-- Local memory caching is single-process and resets on restart. Vercel uses shared Redis; expiry, eviction or a new deployment namespace requires recalculation.
-- Provider, map tile, and forecast licensing/quotas must be suitable for actual traffic. Extensive trips exceeding 450 unique samples return a clear sampling-limit error; choose a coarser interval or shorter trip.
-- Anonymous calculation/search throttling uses the configured cache (shared Redis on Vercel). Sustained production use should also consider platform edge limits and provider quotas.
+Developed with care by **[Numan Asghar](https://portfolio-numanasghar.vercel.app/)**.
